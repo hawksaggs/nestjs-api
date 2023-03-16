@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import CreatePostDto from './dto/createPost.dto';
 import UpdatePostDto from './dto/updatePost.dto';
@@ -7,7 +7,7 @@ import { Post } from './post.model';
 @Injectable()
 export default class PostService {
   constructor(
-    @InjectModel(Post)
+    @Inject('POST_REPOSITORY')
     private postModel: typeof Post,
   ) {}
 
