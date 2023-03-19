@@ -12,6 +12,7 @@ import CreatePostDto from './dto/createPost.dto';
 import UpdatePostDto from './dto/updatePost.dto';
 import { UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../authentication/jwtAuth.guard';
+import FindOneParams from '../utils/findOne.params';
 
 @Controller('posts')
 export default class PostController {
@@ -25,7 +26,7 @@ export default class PostController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  getPostById(@Param('id') id: string) {
+  getPostById(@Param() { id }: FindOneParams) {
     return this.postsService.getPostById(Number(id));
   }
 

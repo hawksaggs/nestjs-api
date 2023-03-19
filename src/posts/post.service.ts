@@ -1,8 +1,8 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { Inject, Injectable } from '@nestjs/common';
 import CreatePostDto from './dto/createPost.dto';
 import UpdatePostDto from './dto/updatePost.dto';
 import { Post } from './post.model';
+import PostNotFoundException from './exception/postNotFound.exception';
 
 @Injectable()
 export default class PostService {
@@ -27,7 +27,7 @@ export default class PostService {
   async getPostById(id: number) {
     const post = await this.postModel.findOne({ where: { id } });
     if (!post) {
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+      throw new PostNotFoundException(id);
     }
 
     return post;
@@ -51,9 +51,9 @@ export default class PostService {
    * @returns
    */
   async updatePost(id: number, post: UpdatePostDto) {
-    let postData = await this.postModel.findOne({ where: { id } });
+    const postData = await this.postModel.findOne({ where: { id } });
     if (!postData) {
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+      throw new PostNotFoundException(id);
     }
 
     postData.title = post.title;
@@ -69,7 +69,7 @@ export default class PostService {
   async deletePost(id: number) {
     const rowAffected = await this.postModel.destroy({ where: { id } });
     if (!rowAffected) {
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+      throw new PostNotFoundException(id);
     }
   }
 }
