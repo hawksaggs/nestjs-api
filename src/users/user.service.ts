@@ -20,7 +20,16 @@ export class UserService {
 
   async createUser(data: CreateUserDto) {
     const newUser = await this.UserModel.create({ ...data });
-    
+
     return newUser.save();
+  }
+
+  async findById(id: number) {
+    const user = await this.UserModel.findOne({ where: { id } });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
   }
 }

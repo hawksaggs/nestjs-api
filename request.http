@@ -1,6 +1,3 @@
-@host=http://localhost:3000
-@postId=1
-
 ### Get All Posts
 GET {{host}}/posts HTTP/1.1
 
@@ -24,3 +21,33 @@ Content-Type: application/json
 
 ### Delete Post
 DELETE {{host}}/posts/{{postId}} HTTP/1.1
+
+### Register User
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "email": "test@test.com",
+  "password": "password"
+}
+
+### Login User
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "password"
+}
+
+### Get Auth User Info
+GET {{host}}/auth/user
+
+### Logout
+POST {{host}}/auth/logout
+Content-Type: application/json
+
+{
+
+}
